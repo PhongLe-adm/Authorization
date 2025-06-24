@@ -13,7 +13,7 @@ function check(){
             message.textContent = "Password match!";
             message.style.backgroundColor = "#3ae374";
             note.textContent = "Welcome! Please proceed.";
-            window.location.replace("https://sites.google.com/view/esolibra/study-content/phong-le/authorization/private-views-phong");
+            window.location.replace("https://sites.google.com/view/esolibra/study-content/phong-le/private-views-phong");
         }
         else{
             message.textContent = "Password not match!";

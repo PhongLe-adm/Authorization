@@ -19,8 +19,7 @@
             let password = document.getElementById("password").value;
             let message = document.getElementById("message");
             let note = document.getElementById("note");
-            const checkcode = "F451";
-            // checkcode is the password of eacher individual [CHANGEABLE]
+            const checkcode = ""; // checkcode is the password of eacher individual [CHANGEABLE]
             console.log(password,message);
 
         // in this section, function should behave as followed: Enter password and click "submit" | if correct -> redirect user to next page | if incorrect -> user are given loop chance to try until correct
@@ -30,7 +29,7 @@
                     message.textContent = "Password match!";
                     message.style.backgroundColor = "#3ae374";
                     note.textContent = "Welcome! Please proceed.";
-                    window.location.replace("https://sites.google.com/view/esolibra/study-content/phong-le/private-views-phong");
+                    window.location.replace(""); //link that it will be directed upon clicking [CHANGEABLE]
                     //inside replace() is the link be redirected to
                 }
                 else{

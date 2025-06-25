@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authorization Checker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!--6 Locations is CHANGEABLE:  Label |    checkcode |     window.location.replace() |     2 backbround colors |       button color-->    
+    <form>
+        <label for = "password">Access to:<br>Phong Le</label> <!--access to "name" [CHANGEABLE]-->
+        <p>Be sure it's CAPITALIZED!</p>
+        <input type ="password" id = "password" required placeholder="Password here"/>
+        <h1 id = "message"></h1>
+        <p id = "note"></p>
+        <p id = "incorrectnote"></p>
+        <input type="button" onclick="check()"  value="SUBMIT"/>
+    </form>
+    <script>
+        function check(){
+            let password = document.getElementById("password").value;
+            let message = document.getElementById("message");
+            let note = document.getElementById("note");
+            let innote = document.getElementById("incorrectnote");
+            const checkcode = "F451"; // checkcode is the password of eacher individual [CHANGEABLE]
+            console.log(password,message);
+
+        // in this section, function should behave as followed: Enter password and click "submit" | if correct -> redirect user to next page | if incorrect -> user are given loop chance to try until correct
+        // program this so when use presses "enter", it submits
+
+            if(password.length != 0){
+                if(password == checkcode){
+                    message.textContent = "Password match!";
+                    message.style.backgroundColor = "#3ae374";
+                    note.textContent = "Welcome! Please wait.";
+                    window.location.replace("https://sites.google.com/view/esolibra/study-content/phong-le/private-views-phong"); //link that it will be directed upon clicking [CHANGEABLE]
+                    //inside replace() is the link be redirected to
+                }
+                else{
+                    message.textContent = "Password not match!";
+                    message.style.backgroundColor = "#ff4d4d";
+                    note.textContent = "Please try again.";
+                    innote.textContent = "Capitalized? Correct Owner's passcode?";
+                }
+            }
+            else{
+                alert("Password empty, enter a passcode.")
+                message.textContent = "";
+            }
+            
+        }
+    </script>
+    <style>
+        body{
+            height: 100vh;
+            font-family: "Poppins", sans-serif;
+            background: linear-gradient(
+                45deg,
+                #ff5160, /* [CHANGEABLE] */
+                #ff3737 /* [CHANGEABLE] */
+            );
+        }
+        form{
+            background-color: #fff;
+            width: 450px;
+            padding: 50px 40px;
+            position: absolute;
+            transform: translate(-50%, -50%);
+            top: 50%;
+            left: 50%;
+            border-radius: 8px;
+            font-size: 40px;
+            text-align: center;
+            letter-spacing: 5px;
+        }
+        label{
+            font-weight: bold;
+            color: black;
+        }
+        input{
+            width: 90%;
+            margin-top: 10px;
+            padding: 17px;
+            border-radius: 5px;
+            outline: none;
+            color: rgb(3, 0, 17);
+        }
+        #password{
+            margin-bottom: 5px;
+            text-align: center;
+            font-size: large;
+        }
+        input[type="password"]{
+            border: 2px solid #c2c2c2;
+        }
+        input[type="button"]{
+            background-color: #ff3737; /* [CHANGEABLE] */
+            border: none;
+            color: #fff;
+            font-weight: bold;
+            font-size: 40px;
+            letter-spacing: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            width: 97%;
+        }
+        h1{
+            font-size: 35px;
+            text-align: center;
+            margin: 15px 0;
+            border-radius: 10px;
+            display: inline-block;
+            color: #fff;
+            padding: 5px 20px;
+            width: 88%;
+        }
+        p{
+            font-size: 20px;
+            letter-spacing: normal;
+            display: block;
+            color: black;
+            text-align: center;
+        }
+    </style>
+</body>
+</html>

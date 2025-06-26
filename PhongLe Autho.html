@@ -16,6 +16,10 @@
         <p id = "note"></p>
         <p id = "incorrectnote"></p>
         <input type="button" onclick="check()"  value="SUBMIT"/>
+        <div class="button-container">
+            <input type="button" onclick = "bac()" value="BACK" id = "back"/>
+            <input type="button" onclick = "ret()" value="RETURN" id= "return"/>
+        </div>
     </form>
     <script>
         function check(){
@@ -48,7 +52,12 @@
                 alert("Password empty, enter a passcode.")
                 message.textContent = "";
             }
-            
+        }
+        function bac(){
+            window.location.replace("https://sites.google.com/view/esolibra/study-content");
+        }
+        function ret(){
+            window.location.replace("https://sites.google.com/view/esolibra/home");
         }
     </script>
     <style>
@@ -57,8 +66,8 @@
             font-family: "Poppins", sans-serif;
             background: linear-gradient(
                 45deg,
-                #ff5160, /* [CHANGEABLE] */
-                #ff3737 /* [CHANGEABLE] */
+                #f0b841, /* [CHANGEABLE] */
+                #f0950d /* [CHANGEABLE] */
             );
         }
         form{
@@ -95,7 +104,7 @@
             border: 2px solid #c2c2c2;
         }
         input[type="button"]{
-            background-color: #ff3737; /* [CHANGEABLE] */
+            background-color: #f0950d; /* [CHANGEABLE] */
             border: none;
             color: #fff;
             font-weight: bold;
@@ -104,6 +113,10 @@
             cursor: pointer;
             margin-top: 10px;
             width: 97%;
+        }
+        input[type="button"]:hover{
+            background-color: #8a580d;
+            color: #f0950d;
         }
         h1{
             font-size: 35px;
@@ -121,6 +134,32 @@
             display: block;
             color: black;
             text-align: center;
+        }
+        .button-container{
+            display: table;
+            position: relative;
+            text-align: center;
+            margin: auto;
+        }
+        #back{
+            background-color: rgb(158, 224, 37);
+            color: white;
+            width: 220px;
+        }
+        #back:hover{
+            background-color: rgb(83, 116, 22);
+            color: rgb(158, 224, 37);
+            width: 220px;
+        }
+        #return{
+            background-color: rgb(216, 28, 28);
+            color:#fff;
+            width: 220px;
+        }
+        #return:hover{
+            background-color: rgb(88, 12, 12);
+            color:#e73737;
+            width: 220px;
         }
     </style>
 </body>

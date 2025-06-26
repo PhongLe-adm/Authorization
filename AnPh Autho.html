@@ -16,8 +16,13 @@
         <p id = "note"></p>
         <p id = "incorrectnote"></p>
         <input type="button" onclick="check()"  value="SUBMIT"/>
+        <div class="button-container">
+            <input type="button" onclick = "bac()" value="BACK" id = "back"/>
+            <input type="button" onclick = "ret()" value="RETURN" id= "return"/>
+        </div>
     </form>
     <script>
+        alert("Pressing ENTER to submit is unvailable, please use SUBMIT button. Thank you!");
         function check(){
             let password = document.getElementById("password").value;
             let message = document.getElementById("message");
@@ -48,7 +53,12 @@
                 alert("Password empty, enter a passcode.")
                 message.textContent = "";
             }
-            
+        }
+        function bac(){
+            window.location.replace("https://sites.google.com/view/esolibra/study-content");
+        }
+        function ret(){
+            window.location.replace("https://sites.google.com/view/esolibra/home");
         }
     </script>
     <style>
@@ -105,6 +115,10 @@
             margin-top: 10px;
             width: 97%;
         }
+        input[type="button"]:hover{
+            background-color: #6b0e54;
+            color: #e42ab5;
+        }
         h1{
             font-size: 35px;
             text-align: center;
@@ -121,6 +135,32 @@
             display: block;
             color: black;
             text-align: center;
+        }
+        .button-container{
+            display: table;
+            position: relative;
+            text-align: center;
+            margin: auto;
+        }
+        #back{
+            background-color: rgb(224, 149, 37);
+            color: white;
+            width: 220px;
+        }
+        #back:hover{
+            background-color: rgb(83, 56, 14);
+            color: rgb(224, 190, 39);
+            width: 220px;
+        }
+        #return{
+            background-color: rgb(216, 28, 28);
+            color:#fff;
+            width: 220px;
+        }
+        #return:hover{
+            background-color: rgb(88, 12, 12);
+            color:#e73737;
+            width: 220px;
         }
     </style>
 </body>

@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>An Chatroom</title> <!--[CHANGEABLE]-->
+</head>
+
+
+<body> <!--Owner states the person who posts their post|Visitor states any users entering the chat-->
+    <div id="labname">
+        <form class="visitname" id="popname">
+            <h1 id="visittitle">Name of User:</h1>
+            <input type="text" id="visitorname" name="namecheck" required placeholder="Enter User name."/>
+            <button type="submit" id="visitconf">OK</button>
+        </form>
+    </div>
+
+
+    <div class = "person-selector">
+        <button class = "button person-selector-button active-person" id = "visitor-selector">Visitor</button> <!-- active-person states who will appear first when load this website-->
+        <button class = "button person-selector-button" id = "owner-selector">An</button><!--[CHANGEABLE]-->
+    </div>
+    <div class = "chat-container">
+        <h2 class = "chat-header">Visitor comments:</h2> <!--when first loaded, the heading in chatbox appears and will change after switching, [CHANGEABLE]-->
+        <div class = "chat-messages">
+        </div>
+        <form class="chat-input-form">
+            <input type="text" class="chat-input" required placeholder = "Please type here." id="inputtext"/> <!--this will show whats in the chat for the first time and will change in .js [CHANGEABLE]-->
+            <button type = "submit" class = "button send-button">Send</button> <!--[CHANGEABLE]-->
+        </form>
+        <button class ="button clear-chat-button">Clear</button> <!--[CHANGEABLE]-->
+    </div>
+    <form id = "checkform">
+        <label for = "passcheck" id="checklab">!Confirmation!</label><br>
+        <h1 id="checkmess">This is restricted Access! Enter Personal's Password to message as Owner.</h1>
+        <p id="conmess">Reset page if you want to return as Visitor.</p>
+        <input type="password" id = "passcheck" required placeholder="Password"/><br>
+        <input type="button" id ="passcon" onclick="pop()" value="SUBMIT"/>
+    <!--    <input type="button" id = "passbac" onclick="bac()" value="BACK"/>
+    I dont bloody know why is this BACK button so hard but i'll leave it be. Initially, it should remove the popup and users are forced to use Visitor only.-->
+    </form>
+    <form>
+        <div class="button-container">
+            <button type="button" onclick="bac()" id="backing">BACK TO DAILY POST</button>
+        </div>
+    </form>
+
+    <script>
+        //variables functions
+        //below contains probably alot, i mean ALOT, of unused variables due to suffering amount of testings, feel free to remove if they're not conflicting
+        const ownerSelectorBtn = document.querySelector('#owner-selector')
+        const visitorSelectorBtn = document.querySelector('#visitor-selector')
+        const chatHeader = document.querySelector('.chat-header')
+        const chatMessages = document.querySelector('.chat-messages')
+        const chatInputForm = document.querySelector('.chat-input-form')
+        const chatInput = document.querySelector('.chat-input')
+        const clearChatBtn = document.querySelector('.clear-chat-button')
+        const passcon = document.getElementById('passcon')
+        const form = document.getElementById('checkform')
+        const passbac = document.getElementById('passbac')
+        const ok = document.getElementById('visitconf')
+        const labname = document.getElementById('labname')
+
+        let conf = "horse" //[CHANGEABLE]
+
+        //this will label name of user upon entering the chatbox, i don't know how i did it but just take it! 'usern' will labels as 'visitor'
+        labname.addEventListener('submit', (e) => {
+            e.preventDefault()
+            const namecheck = e.target.namecheck.value
+            let usern = updateMessageSender(namecheck)
+            labname.style.display = "none"
+        })
+
+        // text memories stored for reload
+        // this will change where it store, a way to store individually [CHANGEABLE]
+        const Anmessages = JSON.parse(localStorage.getItem('Anmessages')) || []
+
+
+        // ${X} means variable mentioned, this states that X is a variable being classified whether it is Owner or Visitor in order to change color in this context
+        // Since i can't change statement "if username === true then blue bg" so i did reverse by "if owner === true then blue bg"
+        //[CHANGEABLE]
+        const createChatMessageElement = (message) => `
+        <div class="message ${message.sender === `An Pham` ? 'blue-bg' : 'gray-bg'}"> 
+            <div class="message-sender">${message.sender}</div>
+            <div class="message-text">${message.text}</div>
+            <div class="message-timestamp">${message.timestamp}</div>
+        </div>
+        `
+        //this keeps memories texts after reload
+        window.onload = () => {
+        Anmessages.forEach((message) => { //[CHANGEABLE]
+            chatMessages.innerHTML += createChatMessageElement(message)
+        })
+        }
+        // if let messageSender = Owner, it will stuck as Owner for both in comment
+        let messageSender = 'Visitor'
+        // this part follows up and replace any current text found in html with given text such as placeholder and header.
+        const updateMessageSender = (name) => {
+        messageSender = name
+        chatHeader.innerText = `${messageSender} comments:`
+        chatInput.placeholder = `Please type here.`
+
+        if (name === 'An Pham') {//[CHANGEABLE]
+            ownerSelectorBtn.classList.add('active-person')
+            visitorSelectorBtn.classList.remove('active-person')
+        }
+        if (name === 'Visitor') {
+            visitorSelectorBtn.classList.add('active-person')
+            ownerSelectorBtn.classList.remove('active-person')
+        }
+
+        /* auto-focus the input field */
+        chatInput.focus()
+        }
+
+
+
+        function pop(){
+            let passcheck = document.getElementById('passcheck').value
+            let confirmnote = document.getElementById("conmess")
+            console.log(passcheck,confirmnote);
+            if(passcheck != 0){
+                if(passcheck === conf){
+                    form.style.display = "none"
+                    updateMessageSender('An Pham') //[CHANGEABLE]
+                }
+                else{
+                    confirmnote.textContent = "Incorrect! Please try again; or reset the web page to return as Visitor."
+                }
+            }
+        }
+        // the function is not working, i don't know why, i don't know how, but i know i don't have the mind to fix this abomination. Function should "bring user back to Visitor text"
+        /*function bac(){
+            const updateMessageSender = (name) => {
+            name = 'Visitor';
+            chatHeader.innerText = `${messageSender} comments:`
+            chatInput.placeholder = `Please type here.`
+            if (name === 'Visitor') {
+                visitorSelectorBtn.classList.add('active-person')
+                ownerSelectorBtn.classList.remove('active-person')
+            }
+            }
+        }*/
+
+        //when on clicked, move to that message side
+        ownerSelectorBtn.onclick = ownerSelectorBtn.addEventListener("click", event => {
+            if(form.style.display === "block"){
+                if(passcon.onclick){
+                    passcheck.reset();
+                    form.style.display = "none";
+                    call(pop())
+                }
+                // NOT BLOOOOOOOODDDDDDDDDYYYYYYYY WORKING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                //if(passbac.onclick){
+                //    form.style.display = "none";
+                //    call(bac())
+                //}
+            }
+            else{
+                form.style.display ="block";
+            }
+        });
+        visitorSelectorBtn.onclick = () => updateMessageSender('Visitor')
+
+        const sendMessage = (e) => {
+        e.preventDefault()
+        // hour12 gives time in am/pm local time
+        const timestamp = new Date().toLocaleString('en-US', { day: 'numeric', month: 'numeric', year:"numeric", hour:"numeric", minute:"numeric", hour12: false})
+
+        const message = {
+            sender: messageSender,
+            text: chatInput.value,
+            timestamp
+        }
+
+        /* Save message to local storage */
+        Anmessages.push(message)//[CHANGEABLE]
+        localStorage.setItem('Anmessages', JSON.stringify(Anmessages)) //first is keyname, second is value [CHANGEABLE]
+
+        /* Add message to DOM */
+        chatMessages.innerHTML += createChatMessageElement(message)
+
+        /* Clear input field */
+        chatInputForm.reset()
+
+        /*  Scroll to bottom of chat messages */
+        chatMessages.scrollTop = chatMessages.scrollHeight
+        }
+
+        chatInputForm.addEventListener('submit', sendMessage)
+        //clearing function - this part will be removed!!!!!!!!!!
+        clearChatBtn.addEventListener('click', () => {
+        localStorage.clear()
+        chatMessages.innerHTML = ''
+        })
+
+        function bac(){
+            window.location.replace("https://sites.google.com/view/esolibra/daily-post")
+        }
+
+    </script>
+    <style>
+        body {
+            background-color: #e42ab5; /* this is overlayed*/
+            /*background-image: url(Slide6.PNG);*/
+            background-size: cover;
+        }
+
+        #labname{
+        position: fixed; /* Sit on top of the page content */
+        width: 100%; /* Full width (cover the whole page) */
+        height: 100%; /* Full height (cover the whole page) */
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+        z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+        display: block;
+        }
+        #popname{
+        position: absolute;
+        background: #271f6b;
+        font-family: 'Roboto', sans-serif;
+        width: 50%;
+        border-radius: 0.5em;
+        padding: 0.5em 1.25em;
+        height: 15.5em;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin-top: auto;
+        margin-bottom: auto;
+        margin-left: auto;
+        margin-right: auto;
+        }
+        #visittitle{
+            font-size: 80px;
+            text-align: center;
+            color: #fff;
+            margin-top: 3%;
+            margin-bottom: 1%;
+        }
+        #visitorname{
+        padding: 0.625em;
+        border: none;
+        border-radius: 0.5em;
+        background-color: #f5f5f5;
+        color: #333;
+        font-size: 2em;
+        font-style: italic;
+        width: 64%;
+        flex-grow: 1;
+        position: absolute;
+        margin: auto;
+        }
+        #visitconf{
+        background-color: #ffffff;
+        width: 25%;
+        border: none;
+        border-radius: 5px;
+        color: #271f6b;
+        font-size: 4em;
+        letter-spacing: 10px;
+        font-weight: bold;
+        position: absolute;
+        right: 20px;
+        cursor: pointer;
+        }
+
+        #visitconf:after{
+            content: "";
+            background: #ffffff;
+            border-radius: 5px;
+            display: block;
+            position: absolute;
+            left: 20px;
+            bottom: 0px;
+            padding-top: 30%;
+            padding-left: 100%;
+            margin-left: -20px !important;
+            margin-top: -30%;
+            opacity: 0;
+            transition: all 0.6s
+        }
+
+        #visitconf:active:after {
+            padding: 0;
+            margin: 0;
+            opacity: 1;
+            transition: 0s
+        }
+
+        .button {
+        border: none;
+        padding: 0.825em;
+        border-radius: 0.5em;
+        cursor: pointer;
+        }
+
+        .button:hover {
+        filter: brightness(0.9);
+        }
+
+        .button:active {
+        transform: translateY(2px);
+        }
+
+        .person-selector {
+        display: flex;
+        justify-content: center;
+        gap: 1em;
+        margin: 3em auto 1em;
+        max-width: 40em;
+        }
+
+        .person-selector-button {
+        width: 100%;
+        background-color: #384450;
+        color: #fff;
+        font-size: x-large;
+        }
+
+        .active-person {
+        background: #3e86ce;
+        }
+
+        .chat-container {
+        background: #ffffff;
+        font-family: 'Roboto', sans-serif;
+        border-radius: 0.5em;
+        padding: 0.5em 1.25em;
+        margin: auto;
+        max-width: 37.5em;
+        height: 37.5em;
+        }
+
+        .chat-header {
+        margin-bottom: 1em;
+        color: #000000;
+        }
+
+        .chat-header h2 {
+        font-size: 1.25em;
+        font-weight: bold;
+        }
+
+        .chat-messages {
+        height: 23em;
+        overflow-y: scroll;
+        }
+
+        .chat-messages::-webkit-scrollbar {
+        display: none;
+        }
+
+        .message {
+        padding: 0.625em;
+        border-radius: 1em;
+        margin-bottom: 0.625em;
+        display: flex;
+        flex-direction: column;
+        color: #fff;
+        }
+
+        .message-sender {
+        font-weight: bold;
+        margin-bottom: 0.31em;
+        }
+
+        .message-text {
+        font-size: 1em;
+        margin-bottom: 0.31em;
+        word-wrap: break-word;
+        font-family: serif;
+        font-size: larger;
+        }
+
+        .message-timestamp {
+        font-size: 0.75em;
+        text-align: right;
+        }
+
+        .blue-bg {
+        background-color: #3e86ce;
+        }
+
+        .gray-bg {
+        background-color: #3d5365;
+        }
+
+        .chat-input-form {
+        display: flex;
+        align-items: center;
+        margin-top: 2em;
+        gap: 0.625em;
+        }
+
+        .chat-input {
+        padding: 0.625em;
+        border: none;
+        border-radius: 0.5em;
+        background-color: #f5f5f5;
+        color: #333;
+        font-size: 1em;
+        flex-grow: 1;
+        }
+
+        .send-button {
+        background-color: #f8ea20;
+        color: #000000;
+        font-size: 1em;
+        font-weight: bold;
+        }
+        .send-button:hover{
+        background-color: #645e0f;
+        color: #faea56;
+        }
+
+        .clear-chat-button {
+        display: block;
+        color: #fff;
+        background-color: #15202b;
+        margin: 3em auto;
+        font-weight: bold;
+        transform: scale(1.5);
+        }
+        .clear-chat-button:hover{
+            background-color: #ffffff;
+            color: #060d14;
+        }
+        #checkform{
+            display: none;
+            position: absolute;
+            background: #eede52;
+            font-family: 'Roboto', sans-serif;
+            border-radius: 0.5em;
+            padding: 7em 1.25em;
+            margin: auto;
+            max-width: 37.5em;
+            height: 34.5em;
+            top:0px;
+            left:0px;
+            bottom: 120px;
+            right:0px;
+        }
+        #checklab{
+            color: #000000;
+            font-size: 5em;
+            font-weight: bolder;
+            letter-spacing: 5px;
+            text-align: center;
+        }
+        #checkmess{
+            color: #000000;
+            font-size: 2em;
+            font-weight: bolder;
+            letter-spacing: 5px;
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 40px;
+        }
+        #passcheck{
+            padding: 1em;
+            text-align: center;
+            border: none;
+            border-radius: 0.5em;
+            background-color: #f5f5f5;
+            color: #333;
+            font-size: 2em;
+            flex-grow: 1; 
+            width: 90%;
+            margin-top: 75px;
+        }
+        #passcon{
+            padding: 0.25em;
+            width: 60%;
+            border-radius: 0.5em;
+            border-width: 10px;
+            border-color: #000000;
+            background-color: #eede52;
+            color: #000000;
+            font-size: 50px;
+            font-weight: bolder;
+            cursor: pointer;
+            letter-spacing: 10px;
+            display: flex;
+            margin: auto;
+            margin-top: 2%;
+        }
+        #passcon:hover{
+            padding: 0.25em;
+            width: 60%;
+            border-radius: 0.5em;
+            border-width: 10px;
+            border-color: #eede52;
+            background-color: #635b14;
+            color: #eede52;
+            font-size: 50px;
+            font-weight: bolder;
+            cursor: pointer;
+            letter-spacing: 10px;
+            display: flex;
+            margin: auto;
+            margin-top: 2%;
+        }
+        #conmess{
+            text-align: center;
+            color: #000000;
+            font-weight: bold;
+            font-size: 1em;
+            letter-spacing: 2px;
+        }
+        #backing{
+            padding: 0.25em;
+            width: 37.4%;
+            border-radius: 10px;
+            border: none;
+            background-color: #46aa0c;
+            color: #ffffff;
+            font-size: 50px;
+            font-weight: 1000;
+            cursor: pointer;
+            letter-spacing: 5px;
+            display: flex;
+            position: absolute;
+            top: 87%;
+            right: 31.3%;
+            transition-duration: 0.2s;
+
+        }
+        #backing:hover{
+            opacity: 0.7;
+        }
+    </style>
+</body>
+</html>

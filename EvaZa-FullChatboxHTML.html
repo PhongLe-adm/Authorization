@@ -29,7 +29,7 @@
             <input type="text" class="chat-input" required placeholder = "Please type here." id="inputtext"/> <!--this will show whats in the chat for the first time and will change in .js [CHANGEABLE]-->
             <button type = "submit" class = "button send-button">Send</button> <!--[CHANGEABLE]-->
         </form>
-        <button class ="button clear-chat-button">Clear</button> <!--[CHANGEABLE]-->
+        <!--<button class ="button clear-chat-button">Clear</button> [CHANGEABLE]-->
     </div>
     <form id = "checkform">
         <label for = "passcheck" id="checklab">!Confirmation!</label><br>
@@ -189,10 +189,10 @@
 
         chatInputForm.addEventListener('submit', sendMessage)
         //clearing function - this part will be removed!!!!!!!!!!
-        clearChatBtn.addEventListener('click', () => {
-        localStorage.clear()
-        chatMessages.innerHTML = ''
-        })
+        //clearChatBtn.addEventListener('click', () => {
+        //localStorage.clear()
+        //chatMessages.innerHTML = ''
+        //})
 
         function bac(){
             window.location.replace("https://sites.google.com/view/esolibra/daily-post")
